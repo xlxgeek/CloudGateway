@@ -1,0 +1,35 @@
+server:
+  port: 8251
+
+test:
+  uri: lb://cloud1-shop-userservice
+
+spring:
+  datasource:
+    url: jdbc:mysql://118.24.252.134:3306/bootStu?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123
+  application:
+    name: cloud-Gateway
+  cloud:
+    gateway:
+      routes:
+        - id: route_service_one
+          uri: ${test.uri} # uri以lb://开头（lb代表从注册中心获取服务），后面接的就是你需要转发到的服务名称
+          predicates:
+            - Path=/user/**
+
+
+
+
+mybatis:
+  mapper-locations: classpath:mybatis/*/*Mapper.xml
+  type-aliases-package: com.xlx.boot.entity
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:20181/eureka/
+
